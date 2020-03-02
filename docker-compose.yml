@@ -1,0 +1,33 @@
+version: '3.7'
+services:
+  # centos7 apache2.4.*(http2) php7.3
+  web:
+    build: ./web
+    container_name: infra-task-web
+    ports:
+      - 8080:80
+    depends_on:
+      - db
+    volumes:
+      - ./src:/var/www/html
+      - ./web/logs:/var/log/httpd
+      - ./web/httpd.conf:/etc/httpd/conf/httpd.conf
+      - ./web/php.ini:/etc/php.ini
+    restart: always
+    env_file: .env
+  # mysql
+  db:
+    image: mysql:8
+    container_name: infra-task-db
+    ports:
+      - 3306:3306
+    volumes:
+      - ./db/data:/var/lib/mysql
+      - ./db/logs:/var/log/mysql
+      - ./db/my.cnf:/etc/mysql/conf.d/my.cnf
+    environment:
+      - MYSQL_DATABASE=test
+      - MYSQL_USER=test
+      - MYSQL_PASSWORD=hogehoge
+      - MYSQL_ROOT_PASSWORD=hogehoge
+      - TZ=Asia/Tokyo

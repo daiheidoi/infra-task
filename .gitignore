@@ -1,0 +1,9 @@
+# log,data,etc...
+db/data
+db/logs
+web/logs
+
+# env
+.env
+
+!.gitkeep
